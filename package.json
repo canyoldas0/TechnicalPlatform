@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/canyoldas0/TechnicalPlatform/issues"
   },
-  "homepage": "https://github.com/canyoldas0/TechnicalPlatform#readme"
+  "homepage": "https://github.com/canyoldas0/TechnicalPlatform#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
