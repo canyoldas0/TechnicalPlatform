@@ -1,0 +1,19 @@
+{
+  "name": "technical_problem_platform",
+  "version": "1.0.0",
+  "description": "Technical Problem Server ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canyoldas0/TechnicalPlatform.git"
+  },
+  "author": "Can Yoldas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/canyoldas0/TechnicalPlatform/issues"
+  },
+  "homepage": "https://github.com/canyoldas0/TechnicalPlatform#readme"
+}
