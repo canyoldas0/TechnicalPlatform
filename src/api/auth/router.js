@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const { check, validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
-
+const secrets = require('../../../config/secrets');
+require('dotenv').config()
 // User Model
 const User = require('../../models/user');
 
@@ -35,9 +35,9 @@ router.post('/login', async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
-
+    console.log(secrets.jwtSecret);
     // If the passwords match, generate a JWT with the user ID as the payload
-    const token = jwt.sign({ user: { id: user.id } }, config.get('jwtSecret'), {
+    const token = jwt.sign({ user: { id: user.id } }, secrets.jwtSecret, {
       expiresIn: 3600
     });
 
@@ -78,7 +78,7 @@ router.post('/createUser', async (req, res) => {
     await user.save();
 
     // Generate a JWT with the user's ID as the payload
-    const token = jwt.sign({ user: { id: user.id } }, config.get('jwtSecret'), {
+    const token = jwt.sign({ user: { id: user.id } }, secrets.jwtSecret, {
       expiresIn: 3600
     });
 

@@ -1,6 +1,5 @@
-const config = require('config');
 const express = require('express');
-const secrets = require('../config.js');
+const secrets = require('../config/secrets');
 const router = require('./api/auth/router.js');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
