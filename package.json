@@ -1,7 +1,7 @@
 {
   "name": "technical_problem_platform",
   "version": "1.0.0",
-  "description": "Technical Problem Server ",
+  "description": "Technical Problem Server",
   "main": "src/app.js",
   "scripts": {
     "start": "nodemon src/app.js",
