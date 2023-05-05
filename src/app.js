@@ -33,12 +33,40 @@ mongoose
 const schema = buildSchema(`
   type Query {
     hello: String
+    users: [User]
+  }
+  
+  type Mutation {
+    createUser(input: CreateUserInput!): User
+  }
+  
+  input CreateUserInput {
+    name: String!
+    email: String!
+    password: String!
+  }
+  
+  type User {
+    _id: ID!
+    name: String!
+    email: String!
+    password: String!
   }
 `);
 
 const root = {
   hello: () => {
     return 'Hello world!';
+  },
+  createUser: async ({ input }) => {
+    const { name, email, password } = input;
+    const user = new User({ name, email, password });
+    await user.save();
+    return 'done';
+  },
+  users: async ({ input }) => {
+    const users = await User.find({});
+    return users;
   },
 };
 
