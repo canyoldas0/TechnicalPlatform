@@ -1,6 +1,5 @@
 const express = require('express');
 const secrets = require('../config/secrets');
-const router = require('./api/auth/router.js');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { graphqlHTTP } = require('express-graphql');
@@ -11,10 +10,8 @@ const User = require('./models/user');
 
 // express app
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use('/api/auth', router);
+app.use(bodyParser.urlencoded({ extended: false })); // needed?
+app.use(bodyParser.json()); // needed?
 
 const port = process.env.PORT || 8080;
 
@@ -34,7 +31,7 @@ const schema = buildSchema(`
   type Query {
     hello: String
     users: [User]
-  }
+  } 
   
   type Mutation {
     createUser(input: CreateUserInput!): User
