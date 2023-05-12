@@ -1,6 +1,8 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
 
-module.exports = {
+dotenv.config();
+
+export const config = {
   dbKey: process.env.DB_KEY,
   jwtSecret: process.env.JWT_KEY,
 };

@@ -1,12 +1,16 @@
-const express = require('express');
-const secrets = require('../config/secrets');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const { graphqlHTTP } = require('express-graphql');
-const { buildSchema } = require('graphql');
+import { config } from '../config/secrets.js';
+import bodyParser from 'body-parser';
+import { graphqlHTTP } from 'express-graphql';
+
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { typeDefs } from './Schemas/schema.js';
+import resolvers from './Schemas/resolvers.js';
+
+import express from 'express';
+import mongoose from 'mongoose';
 
 // User model
-const User = require('./models/user');
+// import User = require('./models/user');
 
 // express app
 const app = express();
@@ -16,7 +20,7 @@ app.use(bodyParser.json()); // needed?
 const port = process.env.PORT || 8080;
 
 mongoose
-  .connect(secrets.dbKey, {
+  .connect(config.dbKey, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -27,51 +31,15 @@ mongoose
     console.error('MongoDB connection error', err);
   });
 
-const schema = buildSchema(`
-  type Query {
-    hello: String
-    users: [User]
-  } 
-  
-  type Mutation {
-    createUser(input: CreateUserInput!): User
-  }
-  
-  input CreateUserInput {
-    name: String!
-    email: String!
-    password: String!
-  }
-  
-  type User {
-    _id: ID!
-    name: String!
-    email: String!
-    password: String!
-  }
-`);
-
-const root = {
-  hello: () => {
-    return 'Hello world!';
-  },
-  createUser: async ({ input }) => {
-    const { name, email, password } = input;
-    const user = new User({ name, email, password });
-    await user.save();
-    return 'done';
-  },
-  users: async ({ input }) => {
-    const users = await User.find({});
-    return users;
-  },
-};
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
 app.use(
   '/graphql',
   graphqlHTTP({
     schema: schema,
-    rootValue: root,
     graphiql: true,
   })
 );
